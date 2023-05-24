@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css">
+  <style>
+    body {
+      color: #ccc;
+      background-color: black;
+    }
+
+    .counter-box {
+      text-align: center;
+      margin-top: 3rem;
+      color: #ccc;
+      background-color: black;
+    }
+
+    .problem-number {
+      font-size: 5rem;
+      margin-bottom: 1rem;
+      font-family: "Cambria", serif;
+    }
+
+    .problem-list {
+      color: #ccc;
+      background-color: black;
+      max-height: 300px;
+      overflow-y: auto;
+      padding: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-top: 2rem;
+    }
+
+    .solved-problems {
+      color: #ccc;
+      background-color: black;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .solved-problems li {
+      color: #ccc;
+      background-color: black;
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      font-family: Courier, monospace;
+    }
+
+    .text-center {
+      font-family: "Courier", monospace;
+    }
+
+    .timer-box {
+      text-align: center;
+      margin-top: 3rem;
+    }
+
+    .timer {
+      font-size: 3rem;
+      color: #ccc;
+      font-family: "Courier", monospace;
+    }
+  </style>
+  <title>Problems Solved Counter</title>
+</head>
+<body>
+  <div class="container">
+    <h1 class="text-center mt-5">Problems Solved Counter</h1>
+    <div class="counter-box">
+      <button id="incrementBtn" class="btn btn-primary btn-lg">Increment</button>
+      <div id="problemNumber" class="problem-number">0</div>
+      <div class="problem-list">
+        <ul id="solvedProblems" class="solved-problems"></ul>
+      </div>
+    </div>
+
+    <div class="timer-box">
+      <h2 class="text-center">Timer</h2>
+      <div id="timer" class="timer">00:00:00</div>
+    </div>
+  </div>
+
+  <script>
+    const incrementBtn = document.getElementById('incrementBtn');
+    const problemNumber = document.getElementById('problemNumber');
+    const solvedProblems = document.getElementById('solvedProblems');
+    const timer = document.getElementById('timer');
+
+    let count = 0;
+    let startTime = null;
+
+    incrementBtn.addEventListener('click', () => {
+      count++;
+      problemNumber.textContent = count;
+
+      const currentTime = new Date().toLocaleTimeString();
+      const newProblemItem = document.createElement('li');
+      newProblemItem.textContent = `Problem ${count} solved at: ${currentTime}`;
+      solvedProblems.insertBefore(newProblemItem, solvedProblems.firstChild);
+    });
+
+    function updateTimer() {
+      const currentTime = new Date();
+      const elapsedTime = Math.floor((currentTime - startTime) / 1000);
+
+      const hours = Math.floor(elapsedTime / 3600);
+      const minutes = Math.floor((elapsedTime % 3600) / 60);
+      const seconds = elapsedTime % 60;
+
+      const formattedTime = `${padZero(hours)}:${padZero(minutes)}:${padZero(seconds)}`;
+      timer.textContent = formattedTime;
+    }
+
+    function padZero(number) {
+      return number.toString().padStart(2, '0');
+    }
+
+    startTime = new Date();
+    setInterval(updateTimer, 1000);
+  </script>
+</body>
+</html>
